@@ -1,0 +1,38 @@
+{% extends "learning_logs/base.html" %}
+{% block content %}
+  
+  <!DOCTYPE html> 
+  <html lang="en">
+  <head>
+  <title>Profiles</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  </head>
+  <body>
+  
+  {% for message in messages %}
+    {% if message.user == user %}
+      <div style="width: 40%;" class="container p-3 my-3 bg-dark text-white">
+        <p style="text-align:right; font-size:15px">&nbsp;{{ message.text }}&nbsp;<img src="{{message.user.profile.profile_image.profile_image.url}}" width="60"></p>
+        
+      </div>
+    {% else %}
+      <div style="width: 40%;" class="container p-3 my-3 bg-secondary text-white">
+        <p style="font-size:15px"><img src="{{message.user.profile.profile_image.profile_image.url}}" width="60">
+        <a href="{% url 'users:profile_user' message.user.id %}">{{ message.user }}</a> | {{ message.text }}</p>
+      </div>
+    {% endif %}
+  {% empty %}
+    <p>
+      no
+    </p>
+  {% endfor %}
+  
+  <form style="text-align:center; font-size:15px" action="{% url 'users:send_message' chat_id=chat.id user_id=user_id %}" method='POST'>
+    {% csrf_token %}
+    {{ message_form.as_p }}
+    <button name='submit'>Send</button>
+  </form> 
+
+{% endblock content %}

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Profiles</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  
+</head>
+<body>
+ <p style="text-align:center;" ><a href="{% url 'users:messages' %}">Messages</a></p>
+ <p style="text-align:center;" ><a href="{% url 'users:disp_post' %}">Posts</a></p>
+ <p style="text-align:center;"><a href="{% url 'users:profile_user' user.id %}"><img src="{{user.profile.profile_image.profile_image.url}}" width="28">&nbsp;{{user.username}}</a></p>
+ 
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+ <form style="text-align:center;" action="{% url 'users:search_results' %}" method="get">
+  <input name="q" type="text" placeholder="Search Users">
+  <button type="submit"><i class="fa fa-search"></i></button>
+ </form>
+
+
+</body>
+{% for profile_ in profiles_ %}
+  {% for profile_photo in profile_photos %}  
+    <div class="container p-3 my-3 bg-dark text-white">
+      {% if profile_.id == profile_photo.owner.id %}
+           
+        <p><a href="{% url 'users:profile_user' profile_.id %}"><h1>Username: {{ profile_ }}</h1></a></p>
+        <p>Name: {{ profile_.first_name }} {{ profile_.last_name }}</p>
+        <p>Bio: {{ profile_.profile.bio }}</p>
+        <p>Bilingual: {{ profile_.profile.bilingual }}</p>
+        <img src="{{ profile_photo.get_photo_url }}" width="240">  
+        {% if user != profile_ %} 
+          <p><a href="{% url 'users:messaging' user_id=profile_.id %}"> Message </a></p>
+        {% endif %}
+      {% endif %}
+      
+      {% endfor %}
+    </div>
+{% endfor %}
+  
+
+

@@ -1,0 +1,57 @@
+{% extends "learning_logs/base.html" %}
+{% block content %}
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <p>
+  <form action="{% url 'users:user_post' %}" method='POST'>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Post</button>
+  </form>
+  <p>________________________________________________________________________________________________________</p>
+  <p>===================================================================================================</p>
+  </p>
+  
+  {% for post in posts_ %}
+    <ul>
+    
+    {% for key, value in post.items %} 
+      
+     {% if key == 'profile_photo' %}
+      <p><img src="{{ value.get_photo_url }}" width="60"></p>
+     {% endif %}
+
+     {% if key == 'post' %}
+       {% if user == value.owner %}
+         <p><a href="{% url 'users:delete_post' value.id %}"><i style="font-size:12px" class="fa">&#xf014;</i></a></p>
+       {% endif %}
+       <p><a href="{% url 'users:profile_user' value.owner.id %}">{{ value.owner }}</a></p>
+       <h3>{{ value }}</h3>
+     {% endif %}
+     
+     {% if key == 'comments' %}
+       {% for val in value %}
+         <img src="{{ val.owner.profile.profile_image.get_photo_url }}" width="30">
+         {% if user == val.owner %}
+           <a href="{% url 'users:delete_comment' val.id %}"><i style="font-size:12px" class="fa">&#xf014;</i></a>
+         {% endif %}  
+         <a href="{% url 'users:profile_user' val.owner.id %}"> <h6> {{val.owner}}</a>: {{val.text}}</h6>
+       {% endfor %}
+     {% endif %}
+     
+     {% if key == 'comments' %}
+       <p>
+       <form action="{% url 'users:new_comment' post.post.id %}" method='POST'>
+           {% csrf_token %}
+           {{ com_form.as_p }}
+         <button name='submit'>Comment</button>
+       </form> 
+       <p>_______________________________________________________________________</p>
+       </p>
+     {% endif %}
+    
+   {% endfor %}
+  {% endfor %}
+  
+  
+{% endblock content %}
+

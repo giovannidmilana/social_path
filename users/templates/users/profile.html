@@ -1,0 +1,55 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+{% extends "learning_logs/base.html" %}
+  {% block content %}
+    <p><a href="{% url 'users:messages' %}"> Messages </a></p>
+    <div class="container p-3 my-3 bg-dark text-white">
+      {% if user == profile %}
+        <a href="{% url 'users:profile_edit_view' %}"> edit profile </a>
+      {% else %}
+        <p><a href="{% url 'users:messaging' user_id=profile.id %}"> Message </a></p>
+      {% endif %}
+      <p><img src="{{ profile_photo.get_photo_url }}" width="240">
+      
+      <h1>Username: {{profile.username}}</h1>
+      <h2>Name: {{ profile.first_name }} {{ profile.last_name}}</h2>
+      <p>Email: {{ profile.email }}</p>
+      <p>Bilingual: {{ profile_.bilingual }}</p>
+      <p>Bio: {{ profile_.bio }}</p>
+    </div>
+  {% for post in posts_ %}
+    <ul>
+    
+    {% for key, value in post.items %} 
+      
+     {% if key == 'profile_photo' %}
+      <img src="{{ value.get_photo_url }}" width="60">
+     {% endif %}
+
+     {% if key == 'post' %}
+       
+       <p><a href="{% url 'users:profile_user' value.owner.id %}">{{ value.owner }}</a></p>
+       <h3>{{ value }}</h3>
+     {% endif %}
+     
+     {% if key == 'comments' %}
+       {% for val in value %}
+         <img src="{{ val.owner.profile.profile_image.get_photo_url }}" width="30">
+         <a href="{% url 'users:profile_user' val.owner.id %}"> <h4> {{val.owner}}</a>: {{val}}</h4>
+       {% endfor %}
+     {% endif %}
+   {% endfor %}
+  {% endfor %}
+  {% endblock content %}

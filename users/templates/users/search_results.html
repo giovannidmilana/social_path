@@ -1,0 +1,16 @@
+{% extends "learning_logs/base.html" %}
+{% block content %}
+  <h1>Search Results</h1>
+
+  <ul>
+    {% for user_ in object_list %}
+      <li>
+        <a href="{% url 'users:profile_user' user_.id %}">
+        <p><img src="{{user_.profile.profile_image.profile_image.url}}" width="60"></p>
+        <p>{{ user_.first_name }}, {{ user_.last_name }}</p>
+        <p>{{user_.username}}</p>
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock content %}

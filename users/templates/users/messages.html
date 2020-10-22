@@ -1,0 +1,30 @@
+{% extends "learning_logs/base.html" %}
+{% block content %}
+
+ <!DOCTYPE html> 
+  <html lang="en">
+  <head>
+  <title>Profiles</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  </head>
+  <body>
+
+
+  {% for chat in chats %}
+    {% if chat.user1 != user %}
+      <a href="{% url 'users:messaging' user_id=chat.user1.id %}">
+      <div style="width: 40%;" class="container p-3 my-3 bg-dark text-white">
+      <p style="text-align:center; font-size:15px"><img src="{{chat.user1.profile.profile_image.profile_image.url}}" width="60">&nbsp;{{chat.user1}}&nbsp;</p>
+      </div>
+      </a>
+    {% else %}
+      <a href="{% url 'users:messaging' user_id=chat.user2.id %}">
+      <div style="width: 40%;" class="container p-3 my-3 bg-dark text-white">
+      <p style="text-align:center; font-size:15px"><img src="{{chat.user1.profile.profile_image.profile_image.url}}" width="60">&nbsp;{{chat.user2}}&nbsp;</p>
+      </div>
+      </a>
+    {% endif %}
+  {% endfor %}
+{% endblock content %}

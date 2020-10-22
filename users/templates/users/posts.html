@@ -1,0 +1,41 @@
+{% extends "learning_logs/base.html" %}
+{% block content %}
+
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save changes</button>
+  </form>
+
+  {% for post in posts %}
+    
+      {% for profile_photo in profile_photos %} 
+        {% if post.owner.id == profile_photo.owner.id %} 
+          <p><a href="{% url 'users:post' post.id %}"> <img src="{{ profile_photo.get_photo_url }}" width="60"> | {{ post.owner }}</a> | {{ post }}</p>
+
+        {% endif %}  
+      {% endfor %}
+
+      
+      {% for comment in comments %}
+        {% for i in comment %}
+          {% for profile_photo in profile_photos %}
+            {% if i.post.id == post.id %}
+            {% if i.owner.id == profile_photo.owner.id %} 
+              <p style="margin-left:50px; margin-right:50px;"><img src="{{ profile_photo.get_photo_url }}" width="60"> | {{i.owner}} : {{ i.text }} </p>
+            {% endif %}
+            {% endif %}
+          
+      {% endfor %}  
+        {% endfor %}  
+          {% endfor %}
+
+    <form action="{% url 'users:new_comment' post.id %}" method='POST'>
+      {% csrf_token %}
+      {{ com_form.as_p }}
+      <button name='submit'>Comment</button>
+    </form>
+  {% endfor %}
+  <ul><h1><a href="{% url 'users:user_post' %}">Add a new post</a></h1></ul>
+{% endblock content %}
+

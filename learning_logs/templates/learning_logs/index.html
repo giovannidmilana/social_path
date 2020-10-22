@@ -1,0 +1,19 @@
+{% extends "learning_logs/base.html" %}
+
+{% block header %}
+  <div class='jumbotron'>
+    <h1>Social Path</h1>
+  </div>
+{% endblock header %}
+
+{% block content %}
+  <h2>
+    <a href="{% url 'users:register' %}">Register an account</a> 
+  </h2>
+  <h2>
+    Social Path is a simple but charming social media platform where you can instant message, 
+    post, comment and more to keep up with your social circles.
+    you can view posts and comments but to use most of its other features you 
+    must create an account and login.
+  </h2>
+{% endblock content %}

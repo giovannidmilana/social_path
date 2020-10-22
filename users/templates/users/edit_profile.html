@@ -1,0 +1,17 @@
+{% extends 'learning_logs/base.html' %}
+
+
+{% block head %}
+<title>Profile</title>
+{% endblock %}
+
+{% block content %}
+
+  <p><img src="{{ profile.profile_image.get_photo_url }}" width="240"></p>
+   <form method="post" enctype="multipart/form-data">
+     {% csrf_token %}
+     {{ profile_photo_form.as_p }}  
+     <button type="submit">Create</button>
+   </form>
+
+{% endblock content %}

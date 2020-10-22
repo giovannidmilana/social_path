@@ -1,0 +1,15 @@
+{% extends "learning_logs/base.html" %}
+
+{% block content %}
+  
+  <p>Edit profile</p>
+  <p><img src="{{ user.profile_image.get_photo_url }}" width="240"></p>
+  <a href="{% url 'users:edit_profile_photo' %}"> edit profile photo </a>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ profile_form.as_p }}
+    {{ user_form.as_p }} 
+    {{ profile_photo_form.as_p }} 
+    <button type="submit">Create</button>
+  </form>
+{% endblock content %}
